@@ -23,12 +23,24 @@ public static class Startup<TClient, TDatabase>
         // IDataAdapter<ApplicationRole> roleAdapter = 
         services
             .AddSingleton<IDataAdapter<ApplicationUser>>(_ => userAdapter)
+            .AddAuthentication(options => {
+                options.DefaultScheme = IdentityConstants.ApplicationScheme;
+            })
+            .AddCookie(IdentityConstants.ApplicationScheme, options => {
+                options.LoginPath = "/login";
+                options.LogoutPath = "/logout";
+            });
+        services
+            // .AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>()
             .AddIdentityCore<ApplicationUser>()
             // .AddRoles<ApplicationRole>()
             .AddUserStore<CustomUserStore>()
             // .AddRoleStore<CustomRoleStore>()
             .AddSignInManager()
             .AddDefaultTokenProviders();
+
+        services
+            .AddAuthorizationCore();
     }
 
     public static void ConfigureClientServices(IServiceCollection services)

@@ -1,4 +1,4 @@
-﻿using DataBlocks.Migrations;
+﻿using ScheMigrator.Migrations;
 using DataBlocks.DataAccess;
 using Microsoft.AspNetCore.Identity;
 

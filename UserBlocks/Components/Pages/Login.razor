@@ -1,0 +1,29 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+
+@page "/login"
+
+<h3>Login</h3>
+
+<EditForm Model="loginModel" OnValidSubmit="HandleLogin">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="email">Email</label>
+        <InputText id="email" @bind-Value="loginModel.Email" class="form-control" />
+        <ValidationMessage For="@(() => loginModel.Email)" />
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password</label>
+        <InputText id="password" @bind-Value="loginModel.Password" class="form-control" type="password" />
+        <ValidationMessage For="@(() => loginModel.Password)" />
+    </div>
+
+    <div class="form-group">
+        <InputCheckbox id="rememberMe" @bind-Value="loginModel.RememberMe" />
+        <label for="rememberMe">Remember me</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Log in</button>
+</EditForm>

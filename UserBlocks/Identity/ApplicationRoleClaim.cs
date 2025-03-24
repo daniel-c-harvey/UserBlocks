@@ -1,5 +1,5 @@
-﻿using DataBlocks.Migrations;
-using DataBlocks.DataAccess;
+﻿using DataBlocks.DataAccess;
+using ScheMigrator.Migrations;
 using Microsoft.AspNetCore.Identity;
 
 namespace UserBlocks.Identity;
