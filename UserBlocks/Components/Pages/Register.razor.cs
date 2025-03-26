@@ -1,7 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
 using UserBlocks.Identity;
+using UserBlocks.Components.Pages.Models;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace UserBlocks.Components.Pages;
 
@@ -16,6 +17,11 @@ public partial class Register : ComponentBase
 
     private RegisterModel registerModel = new();
     private string errorMessage = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
 
     private async Task HandleRegistration()
     {
@@ -40,22 +46,5 @@ public partial class Register : ComponentBase
             }
             StateHasChanged();
         }
-    }
-
-    public class RegisterModel
-    {
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; } = string.Empty;
-
-        [Required]
-        [StringLength(100, MinimumLength = 6, ErrorMessage = "Password must be at least 6 characters long.")]
-        [DataType(DataType.Password)]
-        public string Password { get; set; } = string.Empty;
-
-        [Required]
-        [Compare("Password", ErrorMessage = "Passwords do not match.")]
-        [DataType(DataType.Password)]
-        public string ConfirmPassword { get; set; } = string.Empty;
     }
 }

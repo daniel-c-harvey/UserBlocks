@@ -29,26 +29,26 @@ public class CustomUserStore :
         return IdentityResult.Success;
     }
 
-    public async Task<ApplicationUser> FindByIdAsync(string userId, CancellationToken cancellationToken)
+    public async Task<ApplicationUser?> FindByIdAsync(string userId, CancellationToken cancellationToken)
     {
         // Find user by ID in your database
         if (!long.TryParse(userId, out long id)) throw new ArgumentException("Invalid user id");
         var result = await _userAdapter.GetByID(id);
         
-        if (!result.Success || result.Value is null) throw new ArgumentException("Failed to query user by ID");
+        if (!result.Success) throw new ArgumentException("Failed to query user by ID");
         return result.Value;
     }
 
-    public async Task<ApplicationUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
+    public async Task<ApplicationUser?> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
     {
         // Find user by normalized username in your database
         var result = await _userAdapter.GetByPredicate(u => u.NormalizedUserName == normalizedUserName);
-        if (!result.Success || result.Value is null || !result.Value.Any()) throw new ArgumentException("Failed to query user by name");
-        return result.Value.First();
+        if (!result.Success) throw new ArgumentException("Failed to query user by name");
+        return result.Value?.FirstOrDefault();
     }
 
     // IUserPasswordStore implementation
-    public Task<string> GetPasswordHashAsync(ApplicationUser user, CancellationToken cancellationToken)
+    public Task<string?> GetPasswordHashAsync(ApplicationUser user, CancellationToken cancellationToken)
     {
         return Task.FromResult(user.PasswordHash);
     }
@@ -58,20 +58,20 @@ public class CustomUserStore :
         return Task.FromResult(user.PasswordHash != null);
     }
 
-    public Task SetPasswordHashAsync(ApplicationUser user, string passwordHash, CancellationToken cancellationToken)
+    public Task SetPasswordHashAsync(ApplicationUser user, string? passwordHash, CancellationToken cancellationToken)
     {
         user.PasswordHash = passwordHash;
         return Task.CompletedTask;
     }
 
     // IUserEmailStore implementation
-    public Task SetEmailAsync(ApplicationUser user, string email, CancellationToken cancellationToken)
+    public Task SetEmailAsync(ApplicationUser user, string? email, CancellationToken cancellationToken)
     {
         user.Email = email;
         return Task.CompletedTask;
     }
 
-    public Task<string> GetEmailAsync(ApplicationUser user, CancellationToken cancellationToken)
+    public Task<string?> GetEmailAsync(ApplicationUser user, CancellationToken cancellationToken)
     {
         return Task.FromResult(user.Email);
     }
@@ -87,26 +87,26 @@ public class CustomUserStore :
         return Task.CompletedTask;
     }
 
-    public async Task<ApplicationUser> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
+    public async Task<ApplicationUser?> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
     {
         var result = await _userAdapter.GetByPredicate(u => u.NormalizedEmail == normalizedEmail);
         if (!result.Success || result.Value is null || !result.Value.Any()) throw new ArgumentException("Failed to query user by email");
         return result.Value.First();
     }
 
-    public Task<string> GetNormalizedEmailAsync(ApplicationUser user, CancellationToken cancellationToken)
+    public Task<string?> GetNormalizedEmailAsync(ApplicationUser user, CancellationToken cancellationToken)
     {
         return Task.FromResult(user.NormalizedEmail);
     }
 
-    public Task SetNormalizedEmailAsync(ApplicationUser user, string normalizedEmail, CancellationToken cancellationToken)
+    public Task SetNormalizedEmailAsync(ApplicationUser user, string? normalizedEmail, CancellationToken cancellationToken)
     {
         user.NormalizedEmail = normalizedEmail;
         return Task.CompletedTask;
     }
 
     // Other IUserStore implementation
-    public Task<string> GetNormalizedUserNameAsync(ApplicationUser user, CancellationToken cancellationToken)
+    public Task<string?> GetNormalizedUserNameAsync(ApplicationUser user, CancellationToken cancellationToken)
     {
         return Task.FromResult(user.NormalizedUserName);
     }
@@ -116,18 +116,18 @@ public class CustomUserStore :
         return Task.FromResult(user.Id.ToString());
     }
 
-    public Task<string> GetUserNameAsync(ApplicationUser user, CancellationToken cancellationToken)
+    public Task<string?> GetUserNameAsync(ApplicationUser user, CancellationToken cancellationToken)
     {
         return Task.FromResult(user.UserName);
     }
 
-    public Task SetNormalizedUserNameAsync(ApplicationUser user, string normalizedName, CancellationToken cancellationToken)
+    public Task SetNormalizedUserNameAsync(ApplicationUser user, string? normalizedName, CancellationToken cancellationToken)
     {
         user.NormalizedUserName = normalizedName;
         return Task.CompletedTask;
     }
 
-    public Task SetUserNameAsync(ApplicationUser user, string userName, CancellationToken cancellationToken)
+    public Task SetUserNameAsync(ApplicationUser user, string? userName, CancellationToken cancellationToken)
     {
         user.UserName = userName;
         return Task.CompletedTask;
