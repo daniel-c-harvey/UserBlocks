@@ -1,0 +1,101 @@
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Microsoft.AspNetCore.Components.Web
+@inject NavigationManager NavigationManager
+
+<nav class="navbar navbar-expand-lg border-bottom box-shadow">
+    <div class="container-fluid">
+        <div class="d-flex align-items-left">
+            <a class="navbar-brand" href="">@BrandName</a>
+            @* <button class="navbar-toggler" type="button" aria-expanded="false" aria-label="Toggle navigation" onclick="document.querySelector('.navbar-toggler').click()"> *@
+            @*     <span class="navbar-toggler-icon"></span> *@
+            @* </button> *@
+        </div>
+        <div class="collapse navbar-collapse d-lg-flex justify-content-end" id="navbarSupportedContent">
+            <ul class="navbar-nav ">
+                @foreach (var item in NavigationItems)
+                {
+                    <li class="nav-item px-3">
+                        <a class="nav-link" href="@item.Href">
+                            @if (!string.IsNullOrEmpty(item.Icon))
+                            {
+                                <span class="@item.Icon" aria-hidden="true"></span>
+                            }
+                            <small>@item.Text</small>
+                        </a>
+                    </li>
+                }
+
+                <li class="nav-item px-3">
+                    <a class="nav-link" href="auth">
+                        <span class="bi bi-lock-nav-menu" aria-hidden="true"></span>
+                        <AuthorizeView>
+                            <Authorized>
+                                <small>Authorized</small>
+                            </Authorized>
+                            <NotAuthorized>
+                                <small>Unauthorized</small>
+                            </NotAuthorized>
+                        </AuthorizeView>
+                    </a>
+                </li>
+
+                <AuthorizeView>
+                    <Authorized>
+                        <li class="nav-item px-3">
+                            <a class="nav-link" href="Account/Manage">
+                                <span class="bi bi-person-fill" aria-hidden="true"></span>
+                                <small>@context.User.Identity?.Name</small>
+                            </a>
+                        </li>
+                        <li class="nav-item px-3">
+                            <form action="Account/Logout" method="post">
+                                <AntiforgeryToken/>
+                                <input type="hidden" name="ReturnUrl" value="@NavigationManager.ToBaseRelativePath(NavigationManager.Uri)"/>
+                                <button type="submit" class="nav-link">
+                                    <span class="bi bi-arrow-bar-left" aria-hidden="true"></span>
+                                    <small>Logout</small>
+                                </button>
+                            </form>
+                        </li>
+                    </Authorized>
+                    <NotAuthorized>
+                        <li class="nav-item px-3">
+                            <a class="nav-link" href="Account/Register">
+                                <span class="bi bi-person" aria-hidden="true"></span>
+                                <small>Register</small>
+                            </a>
+                        </li>
+                        <li class="nav-item px-3">
+                            <a class="nav-link" href="Account/Login">
+                                <span class="bi bi-person-badge" aria-hidden="true"></span>
+                                <small>Login</small>
+                            </a>
+                        </li>
+                    </NotAuthorized>
+                </AuthorizeView>
+
+                @ChildContent
+            </ul>
+        </div>
+    </div>
+</nav>
+
+@code {
+    [Parameter]
+    public string BrandName { get; set; } = "My App";
+
+    [Parameter]
+    public List<NavMenuItem> NavigationItems { get; set; } = new();
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    public class NavMenuItem
+    {
+        public string Text { get; set; } = "";
+        public string Href { get; set; } = "";
+        public string Icon { get; set; } = "";
+        public NavLinkMatch Match { get; set; } = NavLinkMatch.Prefix;
+    }
+}
