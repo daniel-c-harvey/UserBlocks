@@ -1,20 +1,20 @@
-﻿using DataAccess;
-using DataBlocks.DataAccess;
+﻿using DataBlocks.DataAccess;
 using DataBlocks.DataAdapters;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using System.Net;
-using System.Runtime.Intrinsics.X86;
+using UserBlocks.Components.Account;
+using UserBlocks.Identity;
 
-namespace UserBlocks.Identity;
+namespace UserBlocks;
 
 public static class Startup<TClient, TDatabase>
 {
     private const string AUTH_COOKIE_NAME = ".TCBC.Auth";
 
-    public static void ConfigureServerServices(IServiceCollection services, string connectionString, string databaseName)
+    public static void ConfigureServices(IServiceCollection services, string connectionString, string databaseName)
     {
         IDataAccess<TDatabase> dataAccess = DataAccessFactory.Create<TClient, TDatabase>(connectionString, databaseName);
         IQueryBuilder<TDatabase> queryBuilder = QueryBuilderFactory.Create<TDatabase>();
@@ -28,20 +28,24 @@ public static class Startup<TClient, TDatabase>
 
         // IDataAdapter<ApplicationRole> roleAdapter = 
         services
+            .AddCascadingAuthenticationState()
+            .AddScoped<IdentityUserAccessor>()
+            .AddScoped<IdentityRedirectManager>()
+            .AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>()
             .AddSingleton(_ => userAdapter)
             // Add authentication
             .AddAuthentication(options =>
             {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
             })
-            .AddCookie("Identity.Application", ConfigureAuthCookie);
+            .AddIdentityCookies();
 
         services
             // .AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>()
             .AddIdentityCore<ApplicationUser>((options) =>
             {
+                options.SignIn.RequireConfirmedAccount = true;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
@@ -55,6 +59,7 @@ public static class Startup<TClient, TDatabase>
 
    
             services.ConfigureApplicationCookie(ConfigureAuthCookie);
+            services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
         services
             .AddAuthorizationCore();
@@ -62,19 +67,13 @@ public static class Startup<TClient, TDatabase>
 
     private static void ConfigureAuthCookie(CookieAuthenticationOptions options)
     {
-        options.Cookie.Name = AUTH_COOKIE_NAME;
-        options.Cookie.HttpOnly = true;
-        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-        options.Cookie.SameSite = SameSiteMode.Strict;
+        // options.Cookie.Name = AUTH_COOKIE_NAME;
+        // options.Cookie.HttpOnly = true;
+        // options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        // options.Cookie.SameSite = SameSiteMode.Strict;
         options.ExpireTimeSpan = TimeSpan.FromDays(30);
         options.SlidingExpiration = true;
-        options.LoginPath = "/login";
-        options.LogoutPath = "/logout";
-    }
-
-    public static void ConfigureClientServices(IServiceCollection services)
-    {
-        services
-            .AddAuthorizationCore();
+        // options.LoginPath = "/login";
+        // options.LogoutPath = "/logout";
     }
 }

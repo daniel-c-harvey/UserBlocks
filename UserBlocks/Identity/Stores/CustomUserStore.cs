@@ -90,8 +90,8 @@ public class CustomUserStore :
     public async Task<ApplicationUser?> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
     {
         var result = await _userAdapter.GetByPredicate(u => u.NormalizedEmail == normalizedEmail);
-        if (!result.Success || result.Value is null || !result.Value.Any()) throw new ArgumentException("Failed to query user by email");
-        return result.Value.First();
+        if (!result.Success) throw new ArgumentException("Failed to query user by email");
+        return result.Value?.FirstOrDefault();
     }
 
     public Task<string?> GetNormalizedEmailAsync(ApplicationUser user, CancellationToken cancellationToken)

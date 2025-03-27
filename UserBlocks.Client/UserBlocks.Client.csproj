@@ -16,14 +16,24 @@
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.3" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.3" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="9.0.3" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.3" />
         <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="9.0.3" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\RazorCore\RazorCore\RazorCore.csproj" />
-      <ProjectReference Include="..\UserBlocks.Client\UserBlocks.Client.csproj" />
       <ProjectReference Include="C:\lib\DataBlocks\ScheMigrator\ScheMigrator.csproj" />
       <ProjectReference Include="C:\lib\DataBlocks\DataBlocks\DataBlocks.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Client\Pages\Auth.razor" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Pages\Auth.razor" />
     </ItemGroup>
 </Project>
