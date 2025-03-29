@@ -5,17 +5,21 @@
 
 <nav class="navbar navbar-expand-lg border-bottom box-shadow">
     <div class="container-fluid">
-        <div class="d-flex align-items-left">
-            <a class="navbar-brand" href="">@BrandName</a>
-            @* <button class="navbar-toggler" type="button" aria-expanded="false" aria-label="Toggle navigation" onclick="document.querySelector('.navbar-toggler').click()"> *@
-            @*     <span class="navbar-toggler-icon"></span> *@
-            @* </button> *@
-        </div>
-        <div class="collapse navbar-collapse d-lg-flex justify-content-end" id="navbarSupportedContent">
-            <ul class="navbar-nav ">
+        <a class="navbar-brand" href="">
+            @if (BrandImage != null)
+            {
+                <img alt="TCB Council Logo" src="@BrandImage" />
+            }
+            @BrandName
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarAccount" aria-controls="navbarAccount" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarAccount">
+            <div class="navbar-nav">
                 @foreach (var item in NavigationItems)
                 {
-                    <li class="nav-item px-3">
+                    <div class="nav-item px-3">
                         <a class="nav-link" href="@item.Href">
                             @if (!string.IsNullOrEmpty(item.Icon))
                             {
@@ -23,10 +27,10 @@
                             }
                             <small>@item.Text</small>
                         </a>
-                    </li>
+                    </div>
                 }
 
-                <li class="nav-item px-3">
+                <div class="nav-item px-3">
                     <a class="nav-link" href="auth">
                         <span class="bi bi-lock-nav-menu" aria-hidden="true"></span>
                         <AuthorizeView>
@@ -38,17 +42,17 @@
                             </NotAuthorized>
                         </AuthorizeView>
                     </a>
-                </li>
+                </div>
 
                 <AuthorizeView>
                     <Authorized>
-                        <li class="nav-item px-3">
+                        <div class="nav-item px-3">
                             <a class="nav-link" href="Account/Manage">
                                 <span class="bi bi-person-fill" aria-hidden="true"></span>
                                 <small>@context.User.Identity?.Name</small>
                             </a>
-                        </li>
-                        <li class="nav-item px-3">
+                        </div>
+                        <div class="nav-item px-3">
                             <form action="Account/Logout" method="post">
                                 <AntiforgeryToken/>
                                 <input type="hidden" name="ReturnUrl" value="@NavigationManager.ToBaseRelativePath(NavigationManager.Uri)"/>
@@ -57,26 +61,26 @@
                                     <small>Logout</small>
                                 </button>
                             </form>
-                        </li>
+                        </div>
                     </Authorized>
                     <NotAuthorized>
-                        <li class="nav-item px-3">
+                        <div class="nav-item px-3">
                             <a class="nav-link" href="Account/Register">
                                 <span class="bi bi-person" aria-hidden="true"></span>
                                 <small>Register</small>
                             </a>
-                        </li>
-                        <li class="nav-item px-3">
+                        </div>
+                        <div class="nav-item px-3">
                             <a class="nav-link" href="Account/Login">
                                 <span class="bi bi-person-badge" aria-hidden="true"></span>
                                 <small>Login</small>
                             </a>
-                        </li>
+                        </div>
                     </NotAuthorized>
                 </AuthorizeView>
 
                 @ChildContent
-            </ul>
+            </div>
         </div>
     </div>
 </nav>
@@ -84,6 +88,8 @@
 @code {
     [Parameter]
     public string BrandName { get; set; } = "My App";
+    [Parameter]
+    public string? BrandImage { get; set; } = null;
 
     [Parameter]
     public List<NavMenuItem> NavigationItems { get; set; } = new();
