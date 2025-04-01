@@ -1,8 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserBlocks", "UserBlocks\UserBlocks.csproj", "{5906353B-50FC-4A01-A0F8-B97C8162B2FD}"
+#
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserBlocksWeb", "UserBlocksWeb\UserBlocksWeb.csproj", "{5906353B-50FC-4A01-A0F8-B97C8162B2FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserBlocks.Client", "F:\Development\UserBlocks\UserBlocks.Client\UserBlocks.Client.csproj", "{FAE7819E-2984-48A5-9721-9413C07C86E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserBlocksWeb.Client", "UserBlocksWeb.Client\UserBlocksWeb.Client.csproj", "{FAE7819E-2984-48A5-9721-9413C07C86E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBlocks", "C:\lib\DataBlocks\DataBlocks\DataBlocks.csproj", "{76DAB38C-6DC7-47DF-8486-C9A71485B6CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserBlocks", "UserBlocks\UserBlocks.csproj", "{2171F301-82C4-4565-9721-57B74DD0A30C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheMigrator", "C:\lib\DataBlocks\ScheMigrator\ScheMigrator.csproj", "{DCF9C8BC-03B5-4AA0-A5F3-A08E76786650}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazorCore", "C:\lib\RazorCore\RazorCore\RazorCore.csproj", "{D88AF33F-E60D-4728-A47D-7FA7F73B4B8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +27,21 @@ Global
 		{FAE7819E-2984-48A5-9721-9413C07C86E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FAE7819E-2984-48A5-9721-9413C07C86E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FAE7819E-2984-48A5-9721-9413C07C86E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76DAB38C-6DC7-47DF-8486-C9A71485B6CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76DAB38C-6DC7-47DF-8486-C9A71485B6CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76DAB38C-6DC7-47DF-8486-C9A71485B6CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76DAB38C-6DC7-47DF-8486-C9A71485B6CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2171F301-82C4-4565-9721-57B74DD0A30C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2171F301-82C4-4565-9721-57B74DD0A30C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2171F301-82C4-4565-9721-57B74DD0A30C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2171F301-82C4-4565-9721-57B74DD0A30C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCF9C8BC-03B5-4AA0-A5F3-A08E76786650}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCF9C8BC-03B5-4AA0-A5F3-A08E76786650}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCF9C8BC-03B5-4AA0-A5F3-A08E76786650}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCF9C8BC-03B5-4AA0-A5F3-A08E76786650}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D88AF33F-E60D-4728-A47D-7FA7F73B4B8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D88AF33F-E60D-4728-A47D-7FA7F73B4B8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D88AF33F-E60D-4728-A47D-7FA7F73B4B8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D88AF33F-E60D-4728-A47D-7FA7F73B4B8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

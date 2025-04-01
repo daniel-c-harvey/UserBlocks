@@ -2,5 +2,9 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../DataBlocks" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../RazorCore" vcs="Git" />
+    <mapping directory="F:/Development/DataBlocks" vcs="Git" />
+    <mapping directory="F:/Development/UserBlocks" vcs="Git" />
   </component>
 </project>
